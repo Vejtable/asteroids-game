@@ -5,6 +5,11 @@ from constants import *
 clock = pygame.time.Clock()
 dt = 0
 
+updatable = pygame.sprite.Group()
+drawable = pygame.sprite.Group()
+
+Player.containers = (updatable, drawable)
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -20,10 +25,11 @@ def main():
                 pygame.quit()
                 return
         dt = clock.tick(60) / 1000
-
-        player.update(dt)
+        for entity in updatable:
+            entity.update(dt)
         screen.fill((0, 0, 0))
-        player.draw(screen)
+        for entity in drawable:
+            entity.draw(screen)
         pygame.display.flip()
 
 if __name__ == "__main__":
